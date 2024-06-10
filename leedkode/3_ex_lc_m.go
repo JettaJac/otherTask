@@ -1,3 +1,4 @@
+// Done
 // Given a string s, find the length of the longest
 // substring
 //  without repeating characters.
@@ -11,7 +12,7 @@
 package main
 
 import (
-	"fmt"
+// "fmt"
 )
 
 // func lengthOfLongestSubstring(s string) int { // медленный
@@ -34,9 +35,9 @@ import (
 // 	return max(memory, tmp)
 // }
 
-func lengthOfLongestSubstring(s string) int {
+func lengthOfLongestSubstring(s string) int { //можно еще оптимальнее на базе этого, толькл мы не проверяем наличие в мапе элемента, а используем значение по ключу
 	myMap := make(map[byte]int)
-	memory, tmp := 0, 0
+	memory := 0
 	left := 0
 	if len(s) > 0 {
 		myMap[s[left]] = 1
@@ -44,32 +45,26 @@ func lengthOfLongestSubstring(s string) int {
 	}
 
 	for right := 1; right < len(s); right++ {
-		// fmt.Println(string(s[i]))
-
-		for key, _ := range myMap {
-			fmt.Println("ooo", myMap[s[right]])
-			if key == s[right] && myMap[s[right]] == 1 {
-				fmt.Println("___")
-				myMap[s[left]] -= 1
-				left += 1
-			} else {
-				myMap[s[right]] = 1
-				// fmt.Println("myMap, right, tmp")
-				tmp = right - left + 1
+		_, ok := myMap[s[right]]
+		if ok {
+			for ok == true {
+				delete(myMap, s[left])
+				left++
+				_, ok = myMap[s[right]]
 			}
-			memory = max(memory, tmp)
-			fmt.Println(string(s[right]), " l, r: ", left, right, " memory: ", memory, " tmp: ", tmp)
 		}
-
+		myMap[s[right]] = 1
+		memory = max(memory, len(myMap))
 	}
+
 	return memory
 }
 
 // func main() {
-// 	fmt.Println(lengthOfLongestSubstring("davdf"), 4)
-// 	// fmt.Println(lengthOfLongestSubstring(""), 0)
-// 	// fmt.Println(lengthOfLongestSubstring("D"), 1)
-// 	// fmt.Println(lengthOfLongestSubstring("Drd"), 2)
-// 	// fmt.Println(lengthOfLongestSubstring("abcbadcbb"), 4)
-// 	// fmt.Println(lengthOfLongestSubstring("pwwkew"), 3)
+// 	fmt.Println(lengthOfLongestSubstring("adavdf"), 4)
+// 	fmt.Println(lengthOfLongestSubstring(""), 0)
+// 	fmt.Println(lengthOfLongestSubstring("D"), 1)
+// 	fmt.Println(lengthOfLongestSubstring("DrD"), 2)
+// 	fmt.Println(lengthOfLongestSubstring("abcbadcbb"), 4)
+// 	fmt.Println(lengthOfLongestSubstring("pwwkew"), 3)
 // }
