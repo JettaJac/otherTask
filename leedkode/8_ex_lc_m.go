@@ -2,9 +2,7 @@
 package main
 
 import (
-	// "fmt"
 	"math"
-	// "strconv"
 )
 
 func myAtoi(s string) int {

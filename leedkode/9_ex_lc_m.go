@@ -6,8 +6,7 @@ package main
 func isPalindrome(x int) bool {
 	original := x
 	copyInt := 0
-	// tmp := []int{}
-	// var n int
+
 	if x < 0 {
 		return false
 	}
@@ -15,14 +14,6 @@ func isPalindrome(x int) bool {
 		copyInt = copyInt*10 + x%10
 		x /= 10
 	}
-
-	// for i, j := 0, len(tmp)-1; i < len(tmp)/2 && j >= len(tmp)/2; i++ {
-	// 	if tmp[i] != tmp[j] {
-	// 		return false
-	// 	}
-	// 	j--
-	// }
-
 	return original == copyInt
 }
 

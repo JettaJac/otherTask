@@ -49,84 +49,52 @@ import (
 //		}
 //		return float64(resultSlice[pointMedian-1])
 //	}
+
 func changeResult2(nums, result []int) (a, b int) {
 	memory := math.MinInt64 // !!!
 	preMemory := math.MinInt64
 	tmp := result[0]
 	fmt.Println(result)
-	// fmt.Println("-----")
-	// fmt.Println("len", len(result), cap(result))
 	for i, j := cap(result)-1, 0; i > 0; {
-
 		for len(result) != cap(result) {
-			// fmt.Println("cap l2en")
-			// i = len(result) - 1
 			result = append(result, nums[j])
 			memory = max(result[i], nums[j])
 			i--
 			j++
-			fmt.Println("cap len", result, memory)
 		}
-
-		fmt.Println(i, "++0+", result)
-		// fmt.Println(j, len(nums), result[i], nums[j], i)
 		if j >= len(nums) || i <= 0 || result[i] <= nums[j] {
 			if memory == math.MinInt64 {
 				memory = result[i-1]
-				fmt.Println("JJJJJ ")
 			}
-			fmt.Println("//", memory)
-			// if j < len(nums) && result[i] == nums[j] {
-			// 	memory = max(result[i], memory)
-			// }
-			fmt.Println("//", result, memory, result[i], preMemory)
 			tmp = memory
 			if i > 0 && j < len(nums) && result[i] == nums[j] {
-
 				tmp = max(result[i-1], memory)
-				fmt.Println("pppppp")
 			}
-			// fmt.Println("pppppp", tmp, result[i-1], result[i])
-
 			return tmp, max(result[i], preMemory)
 		}
 
 		if result[i] > nums[j] {
-			fmt.Println("+++", nums[j])
 			result[i] = nums[j]
 			preMemory = memory
 			memory = nums[j] // а вообще предыдущее значением
 			i--
 			j++
 		}
-		fmt.Println("/", result, memory, result[i], result[i+1], preMemory)
 		tmp = max(result[i], preMemory)
-		fmt.Println("/", tmp)
-		// tmp = result[i]
 	}
 	return memory, tmp
 }
 
 func changeResult(nums, result []int) (a, b int) { //медленнее чем, певый(())
-	memory := math.MinInt64 // !!!
+	memory := math.MinInt64
 	preMemory := math.MinInt64
 	tmp := result[0]
-	fmt.Println("[[", result)
-	// fmt.Println("-----")
-	fmt.Println("len", len(result), cap(result))
 	for i, j := cap(result)-1, 0; i > 0; {
-		fmt.Println("cap l2en")
 		for len(result) != cap(result) {
-
-			// i = len(result) - 1
 			result = append(result, nums[j])
 			i--
 			j++
-			fmt.Println("cap len", result, memory)
 		}
-
-		fmt.Println(i, "++0+", result)
-		// fmt.Println(j, len(nums), result[i], nums[j], i)
 		if j >= len(nums) || i <= 0 || result[i] <= nums[j] {
 
 			sort.Ints(result)
@@ -135,17 +103,13 @@ func changeResult(nums, result []int) (a, b int) { //медленнее чем, 
 		}
 
 		if result[i] > nums[j] {
-			fmt.Println("+++", nums[j])
 			result[i] = nums[j]
 			preMemory = memory
 			memory = nums[j] // а вообще предыдущее значением
 			i--
 			j++
 		}
-		fmt.Println("/", result, memory, result[i], result[i+1], preMemory)
 		tmp = max(result[i], preMemory)
-		fmt.Println("/", tmp)
-		// tmp = result[i]
 	}
 	sort.Ints(result)
 	size := len(result) - 1
@@ -162,11 +126,6 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	var last, preLast int
 	pointMedian := int((size)/2 + 1)
 
-	// z := 0
-	// fmt.Println(nums1[0], nums2[0])
-	// fmt.Println("ppp_")
-	// if len(nums1) != 0 && len(nums2) != 0 && nums1[0] > nums2[0] {
-
 	if len(nums1) > len(nums2) {
 		resultSlice := make([]int, min(pointMedian, len(nums1)), pointMedian)
 		copy(resultSlice, nums1[0:])
@@ -176,74 +135,24 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 
 		resultSlice := make([]int, min(pointMedian, len(nums2)), pointMedian)
 		copy(resultSlice, nums2[0:])
-		// fmt.Println("ppp")
 		preLast, last = changeResult(nums1, resultSlice)
 
 	}
-	// fmt.Println("p, l_: ", preLast, last)
 	if size%2 == 0 {
 		return float64(preLast+last) / 2
 	}
 	return float64(max(preLast, last))
 }
 
-func findMedianSortedArrays2(nums1 []int, nums2 []int) float64 {
-	size := len(nums1) + len(nums2)
-	pointMedian := int((size)/2 + 1)
-	// tmp := make([]int, size/2+1)
-	// tmp := nums1[0:pointMedian]
-	tmp := make([]int, pointMedian)
-	copy(tmp, nums1[0:])
-	fmt.Println(len(tmp), tmp)
-	_ = tmp
-	// result := 0.0
-	// i := 0
-	// fmt.Println(pointMedian)
-	// memory := 0
+// func findMedianSortedArrays2(nums1 []int, nums2 []int) float64 {
+// 	size := len(nums1) + len(nums2)
+// 	pointMedian := int((size)/2 + 1)
 
-	// for j := pointMedian - 1; j > 0; j-- {
-	// 	fmt.Println("W___")
-	// 	if tmp[j] > nums2[i] {
-	// 		fmt.Println("+++++")
-	// 		tmp[j] = nums2[i]
-	// 		memory = nums2[i]
-	// 		fmt.Println("+++++/")
+// 	tmp := make([]int, pointMedian)
+// 	copy(tmp, nums1[0:])
 
-	// 	}
-	// 	fmt.Println("____", len(nums2), nums2[i+1])
-	// 	if i+1 > len(nums2) || tmp[j-1] <= nums2[i+1] {
-	// 		fmt.Println("____")
-	// 		// fmt.Println(tmp, " ", tmp[j], nums2[i])
-
-	// 		fmt.Println(tmp, " ", tmp[j], nums2[i], "memory", memory)
-	// 		if size%2 == 0 {
-	// 			result = float64(max(tmp[j], memory)+max(tmp[j-1], memory)) / 2
-
-	// 		} else {
-
-	// 			result = float64(max(tmp[j], memory))
-	// 		}
-	// 		return result
-	// 	}
-	// 	i++
-
-	// }
-
-	// if pointMedian%2 == 0 {
-	// 	pointMedian = size/2 + 1
-	// } else {
-
-	// }
-
-	// for i := 0; i < size/2+1; i++ {
-	// 	if nums1[i] < nums2[i] {
-	// 		tmp = append(tmp, nums1[i])
-	// 	}
-
-	// }
-
-	return 0.0
-}
+// 	return 0.0
+// }
 
 // func main() {
 // 	nums1 := []int{}
