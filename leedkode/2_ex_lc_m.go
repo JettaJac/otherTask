@@ -7,53 +7,65 @@
 package main
 
 import (
-	"fmt"
+// "fmt"
 )
 
 type ListNode struct {
-	value int
-	Next  *ListNode
+	Val  int
+	Next *ListNode
 }
 
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
-	result := &ListNode{}
-	memory := 0
-	res := 0
-	i := 0
-	for l1 != nil || l2 != nil || memory != 0 {
-		fmt.Println(i)
-		i++
 
-		res = l1.value + l2.value + memory
-		if res >= 10 {
-			memory = 1
-			result.value = res % 10
+	head := &ListNode{}
+	result := head
+	memory := 0
+
+	for l1 != nil || l2 != nil || memory != 0 {
+		sum := memory
+		memory = 0
+		if l1 != nil {
+			sum = sum + l1.Val
+			l1 = l1.Next
 		}
 
-		result.Next = &ListNode{value: res}
-		fmt.Println("___")
-		l1 = l1.Next
-		l2 = l2.Next
+		if l2 != nil {
+			sum = sum + l2.Val
+			l2 = l2.Next
+		}
+
+		memory = sum / 10
+
+		newNode := &ListNode{Val: sum % 10}
+		result.Next = newNode
+		result = newNode
+
+		sum = 0
 	}
 
-	return result
+	return head.Next
 }
 
 // func main() {
-// 	l1 := &ListNode{value: 9}
-// 	l1.Next = &ListNode{value: 9}
-// 	l1.Next.Next = &ListNode{value: 9}
-// 	l1.Next.Next.Next = &ListNode{value: 9}
-// 	l1.Next.Next.Next.Next = &ListNode{value: 9}
-// 	l1.Next.Next.Next.Next.Next = &ListNode{value: 9}
-// 	l1.Next.Next.Next.Next.Next.Next = &ListNode{value: 9}
+// 	l1 := &ListNode{Val: 9}
+// 	l1.Next = &ListNode{Val: 9}
+// 	l1.Next.Next = &ListNode{Val: 9}
+// 	l1.Next.Next.Next = &ListNode{Val: 9}
+// 	l1.Next.Next.Next.Next = &ListNode{Val: 9}
+// 	l1.Next.Next.Next.Next.Next = &ListNode{Val: 9}
+// 	l1.Next.Next.Next.Next.Next.Next = &ListNode{Val: 9}
 
-// 	l2 := &ListNode{value: 9}
-// 	l2.Next = &ListNode{value: 9}
-// 	l2.Next.Next = &ListNode{value: 9}
-// 	l2.Next.Next.Next = &ListNode{value: 9}
-// 	l2.Next.Next.Next = &ListNode{value: 9}
+// 	l2 := &ListNode{Val: 9}
+// 	l2.Next = &ListNode{Val: 9}
+// 	l2.Next.Next = &ListNode{Val: 9}
+// 	l2.Next.Next.Next = &ListNode{Val: 9}
+// 	l2.Next.Next.Next = &ListNode{Val: 9}
 
 // 	result := addTwoNumbers(l1, l2)
-// 	fmt.Println(result)
+// 	fmt.Println("___3: ", result.Val)
+// 	l2 = result
+// 	for l2 != nil {
+// 		fmt.Print(l2.Val)
+// 		l2 = l2.Next
+// 	}
 // }
