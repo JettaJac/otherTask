@@ -12,40 +12,45 @@ package main
 // string convert(string s, int numRows);
 
 import (
-	"fmt"
+// "fmt"
 )
 
-func convert(s string, numRows int) string {
-	res1 := make([]string, len(s))
-	res := ""
-	var c int
-	n := 0
+func convert(s string, numRows int) string { // Done
 
-	for i := 0; i < len(s); i++ {
-		if i/numRows > n {
+	if numRows == 1 {
+		return s
+	}
+
+	tmpStr := make([]string, numRows)
+	var res string
+	whileStr := numRows + (numRows - 1)
+
+	for i := 0; i < len(s); {
+		j := 0
+		for ; i < len(s) && j < numRows && i%(whileStr-1) < numRows; i++ {
+			tmpStr[j] += string(s[i])
+			j++
+		}
+		for n := 2; i < len(s) && i%(whileStr-1) >= numRows; i++ {
+			tmpStr[numRows-n] += string(s[i])
+			j++
 			n++
 		}
-		fmt.Println("N", n)
-		if n == numRows+1 {
-			n = 0
-			c++
-		}
-		count := numRows*n + i%(numRows+1) + c
-		if count < len(s) {
-
-			fmt.Println("count", count)
-
-			res1[count] = string(s[i])
-		}
-		n++
 	}
-	fmt.Println(res1)
+
+	for _, str := range tmpStr {
+		res += str
+	}
 
 	return res
 }
 
 // func main() {
-// 	fmt.Println(convert("PAYPALISHIRING", 3) == "PAHNAPLSIIGYIR")
-// 	// fmt.Println(convert("PAYPALISHIRING", 4) == "PINALSIGYAHRPI")
-// 	// fmt.Println(convert("A", 1) == "A")
+// 	// 	fmt.Println(convert("PREDPRINIMATELU", 4) == "PIERRNTLEPIAUDM")
+// 	// 	fmt.Println(convert("PAYPALISHIRING", 3) == "PAHNAPLSIIGYIR")
+// 	// 	fmt.Println(convert("PAYPALISHIRING", 4) == "PINALSIGYAHRPI")
+// 	// 	fmt.Println(convert("A", 1) == "A")
+// 	// 	fmt.Println(convert("AB", 1) == "AB")
+// 	// fmt.Println(convert("ABC", 2), "ACB")
+// 	// fmt.Println(convert("", 1) == "")
 // }
